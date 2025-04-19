@@ -1,4 +1,3 @@
-# AI_Material_XI
 # 📁 Study Materials & Lecture Contents
 
 Welcome to the **Study Materials & Lecture Contents** folder!
