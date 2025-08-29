@@ -1,4 +1,4 @@
-**01-09-2025:** Half-yearly Practical Exam
+**01-09-2025:** Half-yearly Practical Exam <br>
     | **Reporting Time** | **Exam Time**          | **Sections**    |<br>
     |--------------------|------------------------|-----------------|<br>
     | 10:45 AM           | 11:00 AM - 02:00 PM    | A & C           |<br>
