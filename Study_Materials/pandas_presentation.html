@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pandas Library Presentation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .presentation-container {
+            width: 100%;
+            max-width: 1000px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            padding: 60px;
+            min-height: 600px;
+            animation: fadeIn 0.5s;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            border-bottom: 4px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.8em;
+            margin: 25px 0 15px 0;
+        }
+
+        p, li {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            margin-left: 30px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+
+        .code-block {
+            background: #f4f4f4;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        .diagram {
+            background: #f9f9f9;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 350px;
+            margin: 30px 0;
+        }
+
+        .data-structure {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .structure-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .structure-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .structure-card h4 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 60px;
+            background: #f8f9fa;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1.1em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        .slide-counter {
+            text-align: center;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .table-example {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .table-example th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .table-example td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table-example tr:hover {
+            background: #f5f5f5;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>🐼 Pandas Library</h1>
+            <p class="subtitle">Introduction & Basics</p>
+            <div class="diagram">
+                <svg width="600" height="250" style="margin: 40px auto; display: block;">
+                    <rect x="250" y="20" width="100" height="60" fill="#667eea" rx="10"/>
+                    <text x="300" y="55" text-anchor="middle" fill="white" font-size="20" font-weight="bold">Pandas</text>
+                    
+                    <line x1="300" y1="80" x2="150" y2="150" stroke="#764ba2" stroke-width="3"/>
+                    <line x1="300" y1="80" x2="300" y2="150" stroke="#764ba2" stroke-width="3"/>
+                    <line x1="300" y1="80" x2="450" y2="150" stroke="#764ba2" stroke-width="3"/>
+                    
+                    <rect x="75" y="150" width="150" height="60" fill="#764ba2" rx="10"/>
+                    <text x="150" y="185" text-anchor="middle" fill="white" font-size="16" font-weight="bold">Data Analysis</text>
+                    
+                    <rect x="225" y="150" width="150" height="60" fill="#764ba2" rx="10"/>
+                    <text x="300" y="185" text-anchor="middle" fill="white" font-size="16" font-weight="bold">Manipulation</text>
+                    
+                    <rect x="375" y="150" width="150" height="60" fill="#764ba2" rx="10"/>
+                    <text x="450" y="185" text-anchor="middle" fill="white" font-size="16" font-weight="bold">Visualization</text>
+                </svg>
+            </div>
+            <p style="text-align: center; margin-top: 40px; font-size: 1.3em; color: #666;">
+                A powerful Python library for data manipulation and analysis
+            </p>
+        </div>
+
+        <!-- Slide 2: What is Pandas? -->
+        <div class="slide">
+            <h2>What is Pandas?</h2>
+            <p>Pandas is an open-source Python library that provides high-performance, easy-to-use data structures and data analysis tools.</p>
+            
+            <h3>Key Features:</h3>
+            <ul>
+                <li>Fast and efficient <span class="highlight">DataFrame</span> object for data manipulation</li>
+                <li>Tools for reading and writing data between in-memory data structures and different file formats</li>
+                <li>Data alignment and integrated handling of missing data</li>
+                <li>Reshaping and pivoting of datasets</li>
+                <li>Label-based slicing, indexing, and subsetting of large datasets</li>
+                <li>Time series functionality</li>
+            </ul>
+
+            <div class="code-block">
+# Installing Pandas<br>
+pip install pandas<br><br>
+# Importing Pandas<br>
+import pandas as pd
+            </div>
+        </div>
+
+        <!-- Slide 3: Data Structures -->
+        <div class="slide">
+            <h2>Core Data Structures</h2>
+            
+            <div class="data-structure">
+                <div class="structure-card">
+                    <h4>Series</h4>
+                    <p>1-dimensional labeled array</p>
+                    <p style="font-size: 0.9em; margin-top: 10px;">Can hold any data type</p>
+                </div>
+                <div class="structure-card">
+                    <h4>DataFrame</h4>
+                    <p>2-dimensional labeled data structure</p>
+                    <p style="font-size: 0.9em; margin-top: 10px;">Like a spreadsheet or SQL table</p>
+                </div>
+            </div>
+
+            <div class="diagram">
+                <h3 style="color: #667eea; margin-bottom: 20px;">DataFrame Structure</h3>
+                <table class="table-example">
+                    <thead>
+                        <tr>
+                            <th>Index</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>City</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>0</strong></td>
+                            <td>Alice</td>
+                            <td>25</td>
+                            <td>New York</td>
+                        </tr>
+                        <tr>
+                            <td><strong>1</strong></td>
+                            <td>Bob</td>
+                            <td>30</td>
+                            <td>Paris</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2</strong></td>
+                            <td>Charlie</td>
+                            <td>35</td>
+                            <td>London</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 4: Creating DataFrames -->
+        <div class="slide">
+            <h2>Creating DataFrames</h2>
+            
+            <h3>From Dictionary:</h3>
+            <div class="code-block">
+import pandas as pd<br><br>
+data = {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'Name': ['Alice', 'Bob', 'Charlie'],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'Age': [25, 30, 35],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'City': ['New York', 'Paris', 'London']<br>
+}<br><br>
+df = pd.DataFrame(data)
+            </div>
+
+            <h3>From CSV File:</h3>
+            <div class="code-block">
+df = pd.read_csv('data.csv')
+            </div>
+
+            <h3>From Excel File:</h3>
+            <div class="code-block">
+df = pd.read_excel('data.xlsx')
+            </div>
+        </div>
+
+        <!-- Slide 5: Basic Operations -->
+        <div class="slide">
+            <h2>Basic DataFrame Operations</h2>
+            
+            <div class="code-block">
+# View first 5 rows<br>
+df.head()<br><br>
+# View last 5 rows<br>
+df.tail()<br><br>
+# Get DataFrame info<br>
+df.info()<br><br>
+# Statistical summary<br>
+df.describe()<br><br>
+# Get column names<br>
+df.columns<br><br>
+# Get shape (rows, columns)<br>
+df.shape
+            </div>
+        </div>
+
+        <!-- Slide 6: Data Selection -->
+        <div class="slide">
+            <h2>Data Selection & Indexing</h2>
+            
+            <h3>Selecting Columns:</h3>
+            <div class="code-block">
+# Single column<br>
+df['Name']<br><br>
+# Multiple columns<br>
+df[['Name', 'Age']]
+            </div>
+
+            <h3>Selecting Rows:</h3>
+            <div class="code-block">
+# By position (iloc)<br>
+df.iloc[0]&nbsp;&nbsp;# First row<br>
+df.iloc[0:3]&nbsp;&nbsp;# First 3 rows<br><br>
+# By label (loc)<br>
+df.loc[0]&nbsp;&nbsp;# Row with index 0<br>
+df.loc[0:2, 'Name']&nbsp;&nbsp;# Specific rows and columns
+            </div>
+
+            <h3>Filtering:</h3>
+            <div class="code-block">
+# Filter rows where Age > 25<br>
+df[df['Age'] > 25]
+            </div>
+        </div>
+
+        <!-- Slide 7: Data Visualization Chart -->
+        <div class="slide">
+            <h2>Data Analysis Example</h2>
+            <p>Sample dataset visualization showing age distribution:</p>
+            
+            <div class="chart-container">
+                <canvas id="ageChart"></canvas>
+            </div>
+
+            <div class="code-block">
+# Creating a bar plot<br>
+df['Age'].plot(kind='bar', title='Age Distribution')<br><br>
+# or using matplotlib<br>
+import matplotlib.pyplot as plt<br>
+df.plot(x='Name', y='Age', kind='bar')
+            </div>
+        </div>
+
+        <!-- Slide 8: Common Operations -->
+        <div class="slide">
+            <h2>Common Data Operations</h2>
+            
+            <h3>Adding/Removing Columns:</h3>
+            <div class="code-block">
+# Add new column<br>
+df['Country'] = ['USA', 'France', 'UK']<br><br>
+# Drop column<br>
+df.drop('Country', axis=1, inplace=True)
+            </div>
+
+            <h3>Handling Missing Data:</h3>
+            <div class="code-block">
+# Check for missing values<br>
+df.isnull()<br><br>
+# Drop rows with missing values<br>
+df.dropna()<br><br>
+# Fill missing values<br>
+df.fillna(0)
+            </div>
+
+            <h3>Sorting:</h3>
+            <div class="code-block">
+# Sort by column<br>
+df.sort_values('Age', ascending=False)
+            </div>
+        </div>
+
+        <!-- Slide 9: Grouping & Aggregation -->
+        <div class="slide">
+            <h2>Grouping & Aggregation</h2>
+            
+            <div class="code-block">
+# Group by column and calculate mean<br>
+df.groupby('City')['Age'].mean()<br><br>
+# Multiple aggregations<br>
+df.groupby('City').agg({<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'Age': ['mean', 'min', 'max'],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'Name': 'count'<br>
+})
+            </div>
+
+            <div class="chart-container">
+                <canvas id="groupChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Slide 10: Thank You -->
+        <div class="slide">
+            <h1 style="margin-top: 100px;">Thank You! 🐼</h1>
+            <div class="diagram">
+                <h3 style="color: #667eea;">Key Takeaways</h3>
+                <ul style="text-align: left; margin-top: 30px;">
+                    <li>Pandas is essential for data analysis in Python</li>
+                    <li>DataFrames and Series are the core data structures</li>
+                    <li>Powerful tools for data manipulation and cleaning</li>
+                    <li>Seamless integration with other libraries</li>
+                    <li>Great for handling structured data</li>
+                </ul>
+            </div>
+            <p style="text-align: center; margin-top: 50px; font-size: 1.4em; color: #667eea;">
+                <strong>Start exploring data with Pandas today!</strong>
+            </p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+            <div class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">10</span>
+            </div>
+            <button id="nextBtn" onclick="changeSlide(1)">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = document.querySelectorAll('.slide').length;
+        
+        document.getElementById('totalSlides').textContent = totalSlides;
+        
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            
+            if (n > totalSlides) currentSlide = totalSlides;
+            if (n < 1) currentSlide = 1;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide - 1].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = currentSlide;
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+            
+            // Initialize charts when reaching specific slides
+            if (currentSlide === 7) initAgeChart();
+            if (currentSlide === 9) initGroupChart();
+        }
+        
+        function changeSlide(n) {
+            currentSlide += n;
+            showSlide(currentSlide);
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+        
+        // Initialize charts
+        function initAgeChart() {
+            const ctx = document.getElementById('ageChart');
+            if (ctx && !ctx.chart) {
+                ctx.chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve'],
+                        datasets: [{
+                            label: 'Age',
+                            data: [25, 30, 35, 28, 32],
+                            backgroundColor: [
+                                'rgba(102, 126, 234, 0.8)',
+                                'rgba(118, 75, 162, 0.8)',
+                                'rgba(102, 126, 234, 0.8)',
+                                'rgba(118, 75, 162, 0.8)',
+                                'rgba(102, 126, 234, 0.8)'
+                            ],
+                            borderColor: [
+                                'rgba(102, 126, 234, 1)',
+                                'rgba(118, 75, 162, 1)',
+                                'rgba(102, 126, 234, 1)',
+                                'rgba(118, 75, 162, 1)',
+                                'rgba(102, 126, 234, 1)'
+                            ],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                labels: {
+                                    font: { size: 14 }
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Age Distribution',
+                                font: { size: 18 }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Age',
+                                    font: { size: 14 }
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Name',
+                                    font: { size: 14 }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        function initGroupChart() {
+            const ctx = document.getElementById('groupChart');
+            if (ctx && !ctx.chart) {
+                ctx.chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['New York', 'Paris', 'London', 'Tokyo', 'Sydney'],
+                        datasets: [{
+                            label: 'Average Age by City',
+                            data: [28, 31, 33, 29, 27],
+                            backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                            borderColor: 'rgba(102, 126, 234, 1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                labels: {
+                                    font: { size: 14 }
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Average Age by City',
+                                font: { size: 18 }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Average Age',
+                                    font: { size: 14 }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
