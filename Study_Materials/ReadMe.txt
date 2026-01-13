@@ -67,3 +67,5 @@ NOTEBOOK: Xs_1_Python_1_basics.ipynb
 NOTEBOOK: Xs_2_Strings_in_Python.ipynb
   	Introduction to strings	String operations	String functions	String slicing and manipulation
 
+HTML: Pandas_presentation.html (Download it first and then open it)
+    Introduction, Reading datasheet, Creating DataFrame, Plotting from datasheet, Handling Missing Values, Data Cleaning
